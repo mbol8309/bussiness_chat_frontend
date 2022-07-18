@@ -1,11 +1,11 @@
 import React, { forwardRef, useCallback, useContext, useEffect, useState } from "react";
-import { MainContainer} from "@chatscope/chat-ui-kit-react";
+// import { MainContainer } from "@chatscope/chat-ui-kit-react";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { makeStyles } from "@mui/styles";
 import ChatSidebar from "./ChatSidebar";
 import ChatMessageBox from "./ChatMessageBox";
 import _ from "lodash";
-import { Strophe } from  'strophe.js'
+import { Strophe } from 'strophe.js'
 import { xmppapi } from '../common/xmppapi'
 import { UserStatus, XmppApiContext } from "../common/common";
 import Api from "../../../common/api";
@@ -15,6 +15,8 @@ import moment from "moment";
 import { setXmppMsgUnread } from "../slices/xmppchatslices";
 import { useDropzone } from "react-dropzone";
 import FileUpload from "../service/FileUpload";
+import { Box } from "@mui/material";
+import ChatContainer from "../internal_components/ChatContainer";
 
 const useStyles = makeStyles((theme) => ({
   ChatWindow: {
@@ -38,7 +40,7 @@ const BaseUserData = (jid, additional = {}) => {
     messagesOrder: [],
     chat_state: null,
     last_chat_state_send: null,
-    unreadCnt: 0,
+    unreadCnt: 1,
     history_load: null,
     history_pointer: null
   };
@@ -75,7 +77,7 @@ function UnreadCounter(store) {
 
 
 function addMessage(user, message) {
-  let mo = user?.messagesOrder ? user.messagesOrder : [];
+  // let mo = user?.messagesOrder ? user.messagesOrder : [];
   let ms = user?.messagesStore ? user.messagesStore : {};
   // let _order = Object.hasOwn(ms, message.id)
   //   ? [...mo]
@@ -181,8 +183,8 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
 
   const xmpp = useContext(XmppApiContext);
 
-  const dispatch = null ;//useDispatch();
-  const { chatOpened, unreadMsg } = {chatOpened: null, unreadMsg: null};// useSelector(state => state.XmppChat);
+  const dispatch = null;//useDispatch();
+  const { chatOpened, unreadMsg } = { chatOpened: null, unreadMsg: null };// useSelector(state => state.XmppChat);
   const [fileUploads, setFileUploads] = useState({})
 
   const [loadingContactList, setLoadingContactList] = useState(false)
@@ -190,10 +192,16 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
   const [loadingGroupList, setLoadingGroupList] = useState(false)
   const loadingGroupListLatestState = useLatest(loadingGroupList);
 
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState({
+    ...BaseUserData('pedrito@test.com')
+  })
   const currentUserLatestState = useLatest(currentUser);
 
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState({
+    'miguelitoelloco@testeo.com': BaseUserData('miguelitoelloco@testeo.com'),
+    'niurky@testeo.com': BaseUserData('niurky@testeo.com'),
+    'pepe@testeo.com':BaseUserData('pepe@testeo.com'),
+  });
   const usersLatestState = useLatest(users);
   const [groups, setGroups] = useState({});
   const groupsLatestState = useLatest(groups);
@@ -705,7 +713,7 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
             ...BaseUserData(user_jid),
             ...u[user_jid],
             chat_state: msg_event == 'active' ? 'active' : null,
-            history_pointer: archived_id !=null && u[user_jid]?.history_pointer == null ? archived_id : u[user_jid].history_pointer
+            history_pointer: archived_id != null && u[user_jid]?.history_pointer == null ? archived_id : u[user_jid].history_pointer
           };
 
 
@@ -908,11 +916,11 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
         if (data) { //last result
           let updateFunction = (u) => {
             let newUserData = {
-              [activeJIDLatestState.current]:{
+              [activeJIDLatestState.current]: {
                 ...BaseUserData(activeJIDLatestState.current),
-              ...u[activeJIDLatestState.current],
-              history_load: data.end ? true : null,
-              history_pointer: data.first ? data.first : null
+                ...u[activeJIDLatestState.current],
+                history_load: data.end ? true : null,
+                history_pointer: data.first ? data.first : null
               }
             }
             return newUserData;
@@ -1133,8 +1141,8 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
   return (
     <div className={classes.ChatWindow}>
       <div>{audio}</div>
-      <MainContainer responsive>
-
+      {/* <MainContainer responsive> */}
+      <ChatContainer>
         <ChatSidebar
           users={users}
           groups={groups}
@@ -1156,8 +1164,9 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
             onFileUploadCancel={handleFileUploadCancel} />
           {/* <FileUploadProgress as={'Message'} fileuploads={fileUploads} /> */}
         </div>
+      </ChatContainer>
+      {/* </MainContainer> */}
 
-      </MainContainer>
     </div>
   )
 

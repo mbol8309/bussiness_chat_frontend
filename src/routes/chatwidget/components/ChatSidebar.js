@@ -1,9 +1,10 @@
-import { Avatar, AvatarGroup, Conversation, ConversationList, Accordion, MessageSeparator, Search, Sidebar, TypingIndicator } from "@chatscope/chat-ui-kit-react";
+import { ConversationList, MessageSeparator, Search, Sidebar, TypingIndicator } from "@chatscope/chat-ui-kit-react";
 import { Collapse, Avatar as MuiAvatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ChatMainUser from "./ChatMainUser";
 import GroupIcon from '@mui/icons-material/Group';
-import StyledBadge from "./StyledBadge";
+import StyledAvatar from "../internal_components/StyledAvatar";
+import Conversation from "../internal_components/Conversation";
 
 
 //state for minute conversion to time hours, days
@@ -100,7 +101,7 @@ const UserSidebarConversations = React.memo(({ user, searchText, onSelect, userA
                 onClick={() => onSelect(user)}
                 lastActivityTime={useMinConv(user.lastActivity)}
             >
-                <StyledBadge as={'Avatar'}
+                <StyledAvatar as={'Avatar'}
                     variant='dot'
                     overlap="circular"
                     anchorOrigin={{
@@ -110,11 +111,11 @@ const UserSidebarConversations = React.memo(({ user, searchText, onSelect, userA
                     status={user.status}
                 >
                     <MuiAvatar as={'Avatar'} alt={user.name} src={user.avatar ? user.avatar : 'http://'} />
-                </StyledBadge>
+                </StyledAvatar>
                 {/* <Avatar src={user.avatar ? user.avatar : noimage} name={user.name} status={user.status} /> */}
-                <Conversation.Operations visible>
+                {/* <Conversation.Operations visible>
                     {user.chat_state == 'composing' && <TypingIndicator />}
-                </Conversation.Operations>
+                </Conversation.Operations> */}
             </Conversation>
         </Collapse>)
 }, (prev, next) => {

@@ -18,7 +18,7 @@ import "video-react/dist/video-react.css"
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { Avatar as MuiAvatar } from "@mui/material";
-import StyledBadge from "./StyledBadge";
+import StyledAvatar from "../internal_components/StyledAvatar";
 import { UserStatus } from "../common/common";
 import MimeIcons from "../Icons/mimeicons";
 import LinearProgressWithLabel from "../../../components/LinearProgressWithLabel";
@@ -562,7 +562,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
         <ChatContainer style={{ width: '100%' }} >
             <div as={'ConversationHeader'} >
                 <ConversationHeader>
-                    <StyledBadge as={'Avatar'}
+                    <StyledAvatar as={'Avatar'}
                         variant='dot'
                         overlap="circular"
                         anchorOrigin={{
@@ -572,7 +572,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                         status={user?.status ? user.status : UserStatus.UNAVAILABLE}
                     >
                         <MuiAvatar as={'Avatar'} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />
-                    </StyledBadge>
+                    </StyledAvatar>
                     <ConversationHeader.Content userName={userData.name} info={userData.info} />
                     <ConversationHeader.Actions>
                         <InfoButton title="Show info" />

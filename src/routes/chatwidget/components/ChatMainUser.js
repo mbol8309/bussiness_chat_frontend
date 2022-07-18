@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { useContext, useState } from "react";
 import noimage from '../../../static/icons/no_image.jpg';
 import { UserStatus, XmppApiContext } from "../common/common";
-import StyledBadge, { CustomStatus } from "./StyledBadge";
+import StyledAvatar, { CustomStatus } from "../internal_components/StyledAvatar";
 
 const useStyles = makeStyles((theme) => ({
     popmenu: {
@@ -61,7 +61,7 @@ const ChatMainUser = ({ user = null }) => {
                 info={user?.status}
                 onClick={handleClickOnAvatar}
             >
-                {/* <StyledBadge as={'Avatar'}
+                <StyledAvatar as={'Avatar'}
                     variant='dot'
                     overlap="circular"
                     anchorOrigin={{
@@ -71,8 +71,8 @@ const ChatMainUser = ({ user = null }) => {
                     status={user?.status ? user.status : UserStatus.UNAVAILABLE}
                 >
                     <MuiAvatar as={Avatar} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />
-                </StyledBadge> */}
-                <Avatar src={user?.avatar ? user.avatar : noimage} name={user?.name} status={user?.status} />
+                </StyledAvatar>
+                {/* <Avatar src={user?.avatar ? user.avatar : noimage} name={user?.name} status={user?.status} /> */}
             </Conversation>
             <Popover
                 anchorEl={openStatus}

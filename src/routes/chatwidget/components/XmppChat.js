@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MainContainer, ChatContainer, ConversationHeader, MessageList, Message, MessageInput } from "@chatscope/chat-ui-kit-react";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import { uniqueId } from "lodash";
+// import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import ChatWidget from "./ChatWidget";
 // import { useDispatch, useSelector } from "react-redux";
 import { xmppapi } from '../common/xmppapi';
@@ -10,7 +8,7 @@ import { Backdrop, Badge, Box, Fab, Grow, IconButton, Slide } from "@mui/materia
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import MessageIcon from '@mui/icons-material/Message';
 import { useWindowSize } from "react-use";
-import { setXmppChatOpen } from "../slices/xmppchatslices";
+// import { setXmppChatOpen } from "../slices/xmppchatslices";
 import { XmppApiContext } from "../common/common";
 import { makeStyles } from "@mui/styles";
 // import { useSnackbar } from "notistack";

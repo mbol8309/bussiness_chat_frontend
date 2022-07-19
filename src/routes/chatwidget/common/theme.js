@@ -7,7 +7,8 @@ const theme = createTheme({
             'unavailable': '#a66d00',
             'away': '#fc8b00',
             'dnd': '#ec1212'
-        }
+        },
+        backgroundInput: '#DDF'
     }
 });
 

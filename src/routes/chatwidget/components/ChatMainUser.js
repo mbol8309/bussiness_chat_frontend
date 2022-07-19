@@ -1,10 +1,10 @@
-import { Avatar, Conversation, Accordion, Status, StatusList } from "@chatscope/chat-ui-kit-react"
-import { Collapse, Dialog,  Avatar as MuiAvatar, Menu, Popover } from "@mui/material";
+import { Avatar as MuiAvatar, Popover } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useContext, useState } from "react";
-import noimage from '../../../static/icons/no_image.jpg';
 import { UserStatus, XmppApiContext } from "../common/common";
-import StyledAvatar, { CustomStatus } from "../internal_components/StyledAvatar";
+import Conversation from "../internal_components/Conversation";
+import Status from "../internal_components/Status";
+import StatusList from "../internal_components/StatusList";
 
 const useStyles = makeStyles((theme) => ({
     popmenu: {
@@ -60,8 +60,9 @@ const ChatMainUser = ({ user = null }) => {
                 name={user?.name}
                 info={user?.status}
                 onClick={handleClickOnAvatar}
+                avatar={<MuiAvatar alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />}
             >
-                <StyledAvatar as={'Avatar'}
+                {/* <StyledAvatar as={'Avatar'}
                     variant='dot'
                     overlap="circular"
                     anchorOrigin={{
@@ -70,8 +71,8 @@ const ChatMainUser = ({ user = null }) => {
                     }}
                     status={user?.status ? user.status : UserStatus.UNAVAILABLE}
                 >
-                    <MuiAvatar as={Avatar} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />
-                </StyledAvatar>
+                    
+                </StyledAvatar> */}
                 {/* <Avatar src={user?.avatar ? user.avatar : noimage} name={user?.name} status={user?.status} /> */}
             </Conversation>
             <Popover
@@ -85,12 +86,12 @@ const ChatMainUser = ({ user = null }) => {
                 style={{ zIndex: 2000 }}
             >
                 <StatusList selected={user?.status ? user.status : 'unavailable'} onChange={changeStatus} >
-                    <CustomStatus as={'Status'} size="lg" status="available" name="Available" />
+                    <Status size="lg" status="available" name="Available" />
                     {/* <Status size="lg" status="eager" name="Eager" /> */}
-                    <CustomStatus as={'Status'} size="lg" status="away" name="Away" />
-                    <CustomStatus as={'Status'} size="lg" status="dnd" name="Dnd" />
+                    <Status size="lg" status="away" name="Away" />
+                    <Status size="lg" status="dnd" name="Dnd" />
                     {/* <Status size="lg" status="invisible" name="Invisible" /> */}
-                    <CustomStatus as={'Status'} size="lg" status="unavailable" name="Offline" />
+                    <Status size="lg" status="unavailable" name="Offline" />
                 </StatusList>
             </Popover>
         </>

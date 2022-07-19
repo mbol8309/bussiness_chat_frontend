@@ -23,9 +23,9 @@ const ConversationInfo = ({ value }) => {
 
 const ConversationName = ({ value }) => {
     return (
-        <div>
-            <Typography noWrap variant='body1'>{value}</Typography>
-        </div>
+            <Typography sx={{
+                alignSelf: 'flex-start'
+            }}noWrap variant='body1'>{value}</Typography>
     )
 }
 
@@ -50,8 +50,9 @@ const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active,
     }, [unreadCnt]);
 
     return (
-        <Box display='flex' sx={conversation_style}>
-            <StyledAvatar as={'Avatar'}
+        <Box display='flex' sx={conversation_style}
+        onClick={onClick}>
+            <StyledAvatar
                 variant='dot'
                 overlap="circular"
                 anchorOrigin={{
@@ -59,8 +60,10 @@ const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active,
                     horizontal: 'right',
                 }}
                 status={UserStatus.UNAVAILABLE}
+                
             >
-                <Avatar as={Avatar} alt={name} src={'http://'} />
+                {avatar}
+                {/* <Avatar as={Avatar} alt={name} src={'http://'} /> */}
             </StyledAvatar>
             <Box display='flex' flexDirection={'column'}
                 sx={{

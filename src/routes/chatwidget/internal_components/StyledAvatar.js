@@ -29,28 +29,6 @@ const StyledAvatar = ({ ...props }) => (
     })} {...props} />
 )
 
-const Bullet = ({ status }) => {
 
-    return (<div style={{
-        boxSizing: 'content-box',
-        width: '10px',
-        height: '10px',
-        borderRadius: '50%',
-        position: 'relative',
-        backgroundColor: UserStatusColorIndicator[status],
-
-        // Bubble
-        perspective: '200px',
-        perspectiveOrigin: '50% 50%',
-    }} />)
-}
-
-const CustomStatus = ({ name, status, selected, onClick }) => {
-    return (
-        <Button style={{ width: '100%', justifyContent: "flex-start" }} onClick={onClick} variant='text' startIcon={<Bullet status={status} />}>{name}</Button>
-    )
-}
-
-export { CustomStatus }
 
 export default StyledAvatar;

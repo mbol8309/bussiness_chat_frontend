@@ -1,4 +1,4 @@
-import { Avatar, ChatContainer, ConversationHeader, InfoButton, Message, MessageInput, MessageList, MessageSeparator, TypingIndicator } from "@chatscope/chat-ui-kit-react"
+import { Message, MessageList, MessageSeparator, TypingIndicator } from "@chatscope/chat-ui-kit-react"
 import { Box, Button, Collapse, IconButton, Paper, Popover, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 // import noimage from '/src/static/icons/no_image.jpg';
@@ -23,6 +23,10 @@ import { UserStatus } from "../common/common";
 import MimeIcons from "../Icons/mimeicons";
 import LinearProgressWithLabel from "../../../components/LinearProgressWithLabel";
 import { makeStyles } from "@mui/styles";
+import ConversationHeader from "../internal_components/ConversationHeader";
+import InfoButton from "../internal_components/InfoButton";
+import ChatContainer from "../internal_components/ChatContainer";
+import MessageInput from "../internal_components/MessageInput";
 
 const useStyles = makeStyles((theme) => ({
     checkIcons: {
@@ -500,17 +504,17 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
         }));
     }
 
-    const [, cancelDebounce] = useDebounce(() => {
-        if (user?.last_chat_state_send == 'composing') {
-            onChatStateUpdate('paused');
-        }
-    }, 5000, [userInput, user]);
+    // const [, cancelDebounce] = useDebounce(() => {
+    //     if (user?.last_chat_state_send == 'composing') {
+    //         onChatStateUpdate('paused');
+    //     }
+    // }, 5000, [userInput, user]);
 
-    const debouceBlur = _.debounce(() => {
-        if (user.last_chat_state_send != 'inactive') {
-            onChatStateUpdate('inactive');
-        }
-    }, 10000)
+    // const debouceBlur = _.debounce(() => {
+    //     if (user.last_chat_state_send != 'inactive') {
+    //         onChatStateUpdate('inactive');
+    //     }
+    // }, 10000)
 
     const handleSend = (msg) => {
         if (onSend && _.isFunction(onSend)) {
@@ -559,10 +563,15 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
 
     return (
 
-        <ChatContainer style={{ width: '100%' }} >
-            <div as={'ConversationHeader'} >
-                <ConversationHeader>
-                    <StyledAvatar as={'Avatar'}
+        <Box style={{ display:'flex', flexDirection:'column', flexGrow:1 }} >
+                <ConversationHeader
+                    name={userData?.name}
+                    info={userData?.info}
+                    avatar={<MuiAvatar as={'Avatar'} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />}
+                    actions={
+                        <InfoButton title="Show info" />
+                    }>
+                    {/* <StyledAvatar as={'Avatar'}
                         variant='dot'
                         overlap="circular"
                         anchorOrigin={{
@@ -571,15 +580,11 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                         }}
                         status={user?.status ? user.status : UserStatus.UNAVAILABLE}
                     >
-                        <MuiAvatar as={'Avatar'} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />
-                    </StyledAvatar>
-                    <ConversationHeader.Content userName={userData.name} info={userData.info} />
-                    <ConversationHeader.Actions>
-                        <InfoButton title="Show info" />
-                    </ConversationHeader.Actions>
+                        
+                    </StyledAvatar> */}
+                    {/* <ConversationHeader.Content userName={userData.name} info={userData.info} /> */}
                 </ConversationHeader>
                 <FileUploadProgress as={'ConversationHeader'} fileuploads={fileUploadsState} onFileUploadCancel={onFileUploadCancel} />
-            </div>
 
             <MessageList typingIndicator={<ChatTyping user={userData} />} >
                 {
@@ -624,7 +629,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
 
 
 
-            <div as={'MessageInput'}
+            <div
                 style={{
                     display: "flex",
                     flexDirection: "row",
@@ -643,7 +648,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                         borderTop: 0,
                         flexShrink: "initial"
                     }} />
-                <IconButton color='primary' size='small' onClick={handleAnchorEmotiPoper} disabled={!Boolean(user)}>
+                {/* <IconButton color='primary' size='small' onClick={handleAnchorEmotiPoper} disabled={!Boolean(user)}>
                     <EmojiEmotionsOutlinedIcon />
                 </IconButton>
                 <IconButton
@@ -655,7 +660,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                 </IconButton>
                 <IconButton color='primary' size='small' onClick={onAttachClick} disabled={!Boolean(user)}>
                     <AttachFileIcon />
-                </IconButton>
+                </IconButton> */}
                 {/* <AttachmentButton onClick={onAttachClick}  /> */}
                 {/* <IconButton
                     onClick={()=>alert('not yet')}
@@ -668,7 +673,7 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                     <MicIcon color='primary' />
                 </IconButton> */}
             </div>
-        </ChatContainer >
+        </Box >
 
     )
 }

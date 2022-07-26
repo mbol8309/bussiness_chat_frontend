@@ -21,7 +21,8 @@ import ChatContainer from "../internal_components/ChatContainer";
 const useStyles = makeStyles((theme) => ({
   ChatWindow: {
     height: '100%',
-    width: '100%'
+    width: '100%',
+    display: 'flex'
   }
 }))
 
@@ -185,7 +186,13 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
 
   const dispatch = null;//useDispatch();
   const { chatOpened, unreadMsg } = { chatOpened: null, unreadMsg: null };// useSelector(state => state.XmppChat);
-  const [fileUploads, setFileUploads] = useState({})
+  const [fileUploads, setFileUploads] = useState({
+    3434: {
+      name: 'filename.txt',
+      progress: 60,
+      size: 345345
+    }
+  })
 
   const [loadingContactList, setLoadingContactList] = useState(false)
   const loadingContactListLatestState = useLatest(loadingContactList);
@@ -198,9 +205,12 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
   const currentUserLatestState = useLatest(currentUser);
 
   const [users, setUsers] = useState({
-    'miguelitoelloco@testeo.com': BaseUserData('miguelitoelloco@testeo.com'),
+    'miguelitoelloco@testeo.com': {
+      ...BaseUserData('miguelitoelloco@testeo.com'),
+      info: 'mbol8309@gmail.com'
+    },
     'niurky@testeo.com': BaseUserData('niurky@testeo.com'),
-    'pepe@testeo.com':BaseUserData('pepe@testeo.com'),
+    'pepe@testeo.com': BaseUserData('pepe@testeo.com'),
   });
   const usersLatestState = useLatest(users);
   const [groups, setGroups] = useState({});
@@ -1151,19 +1161,19 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
           onSelect={handleOnSelect}
           usersLoadingState={loadingContactList}
           groupsLoadingState={loadingGroupList} />
-        <div {...getRootProps()} className="cs-chat-container" style={{ zIndex: 3 }}>
+        {/* <Box {...getRootProps()} style={{ zIndex: 3, display:'flex', flexGrow:1 }} >
           <input {...getInputProps()} />
-          <DropArea enter={isDragActive} />
-          <ChatMessageBox
-            user={activeJID && users[activeJID] ? (users[activeJID] ? users[activeJID] : null) : (activeJID && groups[activeJID] ? groups[activeJID] : null)}
-            onSend={handleSend}
-            onChatStateUpdate={handleChatStateUpdate}
-            onHistoryLoad={handleHistoryLoad}
-            onAttachClick={handleAttachClick}
-            fileUploadsState={fileUploads}
-            onFileUploadCancel={handleFileUploadCancel} />
-          {/* <FileUploadProgress as={'Message'} fileuploads={fileUploads} /> */}
-        </div>
+          <DropArea enter={isDragActive} /> */}
+        <ChatMessageBox
+          user={activeJID && users[activeJID] ? (users[activeJID] ? users[activeJID] : null) : (activeJID && groups[activeJID] ? groups[activeJID] : null)}
+          onSend={handleSend}
+          onChatStateUpdate={handleChatStateUpdate}
+          onHistoryLoad={handleHistoryLoad}
+          onAttachClick={handleAttachClick}
+          fileUploadsState={fileUploads}
+          onFileUploadCancel={handleFileUploadCancel} />
+        {/* <FileUploadProgress as={'Message'} fileuploads={fileUploads} /> */}
+        {/* </Box> */}
       </ChatContainer>
       {/* </MainContainer> */}
 

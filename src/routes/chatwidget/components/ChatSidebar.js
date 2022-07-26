@@ -1,4 +1,3 @@
-import {Sidebar} from "@chatscope/chat-ui-kit-react";
 import { Collapse, Avatar as MuiAvatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ChatMainUser from "./ChatMainUser";
@@ -8,6 +7,7 @@ import Conversation from "../internal_components/Conversation";
 import ConversationList from "../internal_components/ConversationList";
 import MessageSeparator from "../internal_components/MessageSeparator";
 import Search from "../internal_components/Search";
+import Sidebar from "../internal_components/Sidebar";
 
 
 //state for minute conversion to time hours, days
@@ -206,7 +206,7 @@ const ChatSidebar = ({
     }
 
     return (
-        <Sidebar position="left" scrollable={true}>
+        <Sidebar position="right" scrollable={true}>
             <ChatMainUser user={mainUser} />
             <MessageSeparator />
             <Search placeholder="Search..." value={searchText} onChange={(value) => setSearchText(value)} onClearClick={() => setSearchText('')} />

@@ -30,7 +30,7 @@ const ConversationName = ({ value }) => {
 }
 
 
-const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active, onClick, lastActivityTime, avatar }) => {
+const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active, onClick, lastActivityTime, avatar, adds }) => {
 
     const conversation_style = theme => ({
         border: '1px solid #EEE', 
@@ -38,10 +38,11 @@ const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active,
         padding: 1,
         alignItems: 'center',
         position: 'relative',
-        backgroundColor: active ? '#d5e7f5' : theme.palette.paper,
+        backgroundColor:  active ? theme.palette.components.conversation.active.backgroundColor : theme.palette.components.conversation.backgroundColor,
         cursor: 'pointer',
+        flexGrow: 1,
         '&:hover': {
-            backgroundColor: '#f3f8fc'
+            backgroundColor: theme.palette.components.conversation.hover.backgroundColor
         }
     });
 
@@ -90,6 +91,9 @@ const Conversation = ({ children, name, lastSenderName, info, unreadCnt, active,
                     borderRadius: '0.3em',
                     padding:'0.01em 0.3em'
                 }}>{unreadCnt}</div>
+            }
+            {
+                adds
             }
         </Box>
     )

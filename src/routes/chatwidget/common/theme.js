@@ -8,8 +8,22 @@ const theme = createTheme({
             'away': '#fc8b00',
             'dnd': '#ec1212'
         },
-        backgroundInput: '#DDF'
-    }
+        backgroundInput: 'aliceblue',
+        components: {
+            sidebar: {
+                backgroundColor: 'aliceblue'
+            },
+            conversation: {
+                backgroundColor: '#FFF',
+                active:{
+                    backgroundColor: '#d5e7f5'
+                },
+                hover: {
+                    backgroundColor: '#C5D7E5'
+                }
+            }
+        }
+    },
 });
 
 export default theme;

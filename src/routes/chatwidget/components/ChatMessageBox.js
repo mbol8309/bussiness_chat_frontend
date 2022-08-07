@@ -1,4 +1,3 @@
-import { Message, MessageList, MessageSeparator, TypingIndicator } from "@chatscope/chat-ui-kit-react"
 import { Box, Button, Collapse, IconButton, Paper, Popover, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 // import noimage from '/src/static/icons/no_image.jpg';
@@ -27,6 +26,10 @@ import ConversationHeader from "../internal_components/ConversationHeader";
 import InfoButton from "../internal_components/InfoButton";
 import ChatContainer from "../internal_components/ChatContainer";
 import MessageInput from "../internal_components/MessageInput";
+import Message from "../internal_components/Message";
+import MessageSeparator from "../internal_components/MessageSeparator";
+import TypingIndicator from "../internal_components/TypingIndicator";
+import MessageList from "../internal_components/MessageList";
 
 const useStyles = makeStyles((theme) => ({
     checkIcons: {
@@ -75,7 +78,7 @@ const MessageCheckMark = ({ message }) => {
 }
 
 const ChatTyping = ({ user }) => {
-    if (user.chat_state == 'composing') {
+    if (true /*user.chat_state == 'composing'*/) {
         return <TypingIndicator content={`${user.name} is typing`} />
     } else {
         return null;
@@ -351,7 +354,11 @@ const MessageMemo = React.memo(({ message, showSender, divider = false }) => {
             {divider &&
                 <MessageSeparator key={message.id + '.sep'} content={moment(message.sentTime).format('dddd, DD/MM/YY')} />
             }
-            <Message key={message.id} model={{ direction: message.direction, position: showSender ? 'first' : 'normal' }} avatarPosition={'cl'}>
+            <Message
+                message={message}
+                footerSender={message.from}
+                footerSentTime={dateReference} />
+            {/* <Message key={message.id} model={{ direction: message.direction, position: showSender ? 'first' : 'normal' }} avatarPosition={'cl'}>
                 {
                     oob ?
                         <MessageWithAttach key={`message_attach-${message.id}`} as={'Message.CustomContent'} message={message} />
@@ -362,7 +369,7 @@ const MessageMemo = React.memo(({ message, showSender, divider = false }) => {
                     <MessageCheckMark message={message} as='Avatar' />
                 }
                 <Message.Footer sender={message.show_from ? message.from : null} sentTime={dateReference} />
-            </Message>
+            </Message> */}
         </React.Fragment>
     )
 }, (prev, next) => {
@@ -563,15 +570,15 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
 
     return (
 
-        <Box style={{ display:'flex', flexDirection:'column', flexGrow:1 }} >
-                <ConversationHeader
-                    name={userData?.name}
-                    info={userData?.info}
-                    avatar={<MuiAvatar as={'Avatar'} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />}
-                    actions={
-                        <InfoButton title="Show info" />
-                    }>
-                    {/* <StyledAvatar as={'Avatar'}
+        <Box style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }} >
+            <ConversationHeader
+                name={userData?.name}
+                info={userData?.info}
+                avatar={<MuiAvatar as={'Avatar'} alt={user?.name} src={user?.avatar ? user.avatar : 'http://'} />}
+                actions={
+                    <InfoButton title="Show info" />
+                }>
+                {/* <StyledAvatar as={'Avatar'}
                         variant='dot'
                         overlap="circular"
                         anchorOrigin={{
@@ -582,9 +589,9 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                     >
                         
                     </StyledAvatar> */}
-                    {/* <ConversationHeader.Content userName={userData.name} info={userData.info} /> */}
-                </ConversationHeader>
-                <FileUploadProgress as={'ConversationHeader'} fileuploads={fileUploadsState} onFileUploadCancel={onFileUploadCancel} />
+                {/* <ConversationHeader.Content userName={userData.name} info={userData.info} /> */}
+            </ConversationHeader>
+            <FileUploadProgress as={'ConversationHeader'} fileuploads={fileUploadsState} onFileUploadCancel={onFileUploadCancel} />
 
             <MessageList typingIndicator={<ChatTyping user={userData} />} >
                 {
@@ -639,39 +646,11 @@ const ChatMessageBox = ({ user = null, onSend, onChatStateUpdate, onHistoryLoad,
                     ref={textInputRef}
                     onChange={handleChangeInput}
                     value={Object.hasOwn(userInput, user?.jid) ? userInput[user.jid] : ''}
-                    sendButton={false}
+                    sendButton={true}
                     placeholder="Type message here"
                     disabled={!Boolean(user)}
-                    attachButton={false}
-                    onSend={handleSend} style={{
-                        flexGrow: 1,
-                        borderTop: 0,
-                        flexShrink: "initial"
-                    }} />
-                {/* <IconButton color='primary' size='small' onClick={handleAnchorEmotiPoper} disabled={!Boolean(user)}>
-                    <EmojiEmotionsOutlinedIcon />
-                </IconButton>
-                <IconButton
-                    color='primary'
-                    size='small'
-                    onClick={() => handleSend(Object.hasOwn(userInput, user?.jid) ? userInput[user.jid] : '')}
-                    disabled={!Boolean(user)}>
-                    <SendIcon />
-                </IconButton>
-                <IconButton color='primary' size='small' onClick={onAttachClick} disabled={!Boolean(user)}>
-                    <AttachFileIcon />
-                </IconButton> */}
-                {/* <AttachmentButton onClick={onAttachClick}  /> */}
-                {/* <IconButton
-                    onClick={()=>alert('not yet')}
-                    size='small'
-                    style={{
-                        fontSize: "1.2em",
-                        paddingLeft: "0.2em",
-                        paddingRight: "0.2em"
-                    }}>
-                    <MicIcon color='primary' />
-                </IconButton> */}
+                    attachButton={true}
+                    onSend={handleSend} />
             </div>
         </Box >
 

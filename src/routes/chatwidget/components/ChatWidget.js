@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useContext, useEffect, useState } from "react";
 // import { MainContainer } from "@chatscope/chat-ui-kit-react";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+//import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { makeStyles } from "@mui/styles";
 import ChatSidebar from "./ChatSidebar";
 import ChatMessageBox from "./ChatMessageBox";
@@ -207,7 +207,17 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
   const [users, setUsers] = useState({
     'miguelitoelloco@testeo.com': {
       ...BaseUserData('miguelitoelloco@testeo.com'),
-      info: 'mbol8309@gmail.com'
+      info: 'mbol8309@gmail.com',
+      messagesStore:{
+        1:{
+          from:'miguelitoelloco@testeo.com',
+          to:'pedrito@testeo.com',
+          id:1,
+          message:'prueba',
+          direction: 'incoming'
+        },
+        messagesOrder:[1]
+      }
     },
     'niurky@testeo.com': BaseUserData('niurky@testeo.com'),
     'pepe@testeo.com': BaseUserData('pepe@testeo.com'),
@@ -335,7 +345,7 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
 
         let updateFunction = (u) => {
           let newmessage = {
-            id: xmpp.getUniqueId(),
+            id: Math.random(),
             from: currentUserLatestState.name,
             to: u[to].name,
             message: get,
@@ -360,7 +370,7 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
       if (to && groupsLatestState.current[to]) {
         let updateFunction = (g) => {
           let newmessage = {
-            id: xmpp.getUniqueId(),
+            id: Math.random(),// xmpp.getUniqueId(),
             from: currentUserLatestState.current.name,
             to: g[to].name,
             message: get,
@@ -513,7 +523,7 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
 
       let updateFunction = (u) => {
         let newmessage = {
-          id: xmpp.getUniqueId(),
+          id: Math.random(),//xmpp.getUniqueId(),
           from: currentUserLatestState.current.name,
           to: u[activeJIDLatestState.current].name,
           message: message,
@@ -521,7 +531,27 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
           unread: false,
           sentTime: moment()
         };
-        xmpp.sendMessage(newmessage, activeJIDLatestState.current, u[activeJIDLatestState.current]?.last_chat_state_send != 'active');
+        // xmpp.sendMessage(newmessage, activeJIDLatestState.current, u[activeJIDLatestState.current]?.last_chat_state_send != 'active');
+        let newUserData = {
+          [activeJIDLatestState.current]: {
+            ...u[activeJIDLatestState.current],
+            ...addMessage(u[activeJIDLatestState.current], newmessage),
+          }
+        }
+        return newUserData;
+      }
+
+      let updateFunction2 = (u) => {
+        let newmessage = {
+          id: Math.random(),//xmpp.getUniqueId(),
+          from: u[activeJIDLatestState.current].name,
+          to: currentUserLatestState.current.name,
+          message: 'Re:' + message,
+          direction: 'incoming',
+          unread: false,
+          sentTime: moment()
+        };
+        // xmpp.sendMessage(newmessage, activeJIDLatestState.current, u[activeJIDLatestState.current]?.last_chat_state_send != 'active');
         let newUserData = {
           [activeJIDLatestState.current]: {
             ...u[activeJIDLatestState.current],
@@ -532,13 +562,14 @@ const ChatWidget = forwardRef(({ mainUser = null }, ref) => {
       }
 
       updateUsers(updateFunction);
+      updateUsers(updateFunction2);
     }
 
     if (activeJID && groups[activeJID]) { //handle send on groups
 
       let updateFunction = (g) => {
         let newmessage = {
-          id: xmpp.getUniqueId(),
+          id: Math.random(),//xmpp.getUniqueId(),
           from: currentUserLatestState.current.name,
           to: g[activeJIDLatestState.current].name,
           message: message,

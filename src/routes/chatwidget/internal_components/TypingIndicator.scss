@@ -1,0 +1,21 @@
+
+
+@keyframes blink {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes moveup {
+    50% {
+        transform:translate(0,-5px);
+    }
+}
+
+.typingIndicatorDot {
+    @for $i from 1 through 3 {
+        &:nth-of-type(#{$i}) {
+          animation: 1s moveup infinite ($i * .3333s) ease-in-out;
+        }
+      }
+}

@@ -15,15 +15,24 @@ const theme = createTheme({
             },
             conversation: {
                 backgroundColor: '#FFF',
-                active:{
+                active: {
                     backgroundColor: '#d5e7f5'
                 },
                 hover: {
                     backgroundColor: '#C5D7E5'
                 }
-            }
+            },
         }
     },
+    components: {
+        message: {
+            content: {
+                backgroundColor: 'lightblue'
+            }
+
+        }
+    }
+
 });
 
 export default theme;

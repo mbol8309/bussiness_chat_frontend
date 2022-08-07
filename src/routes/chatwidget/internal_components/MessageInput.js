@@ -5,7 +5,7 @@
 import { AttachFile as AttachFileIcon, EmojiEmotionsOutlined as EmojiEmotionsOutlinedIcon, Send as SendIcon } from "@mui/icons-material"
 import { IconButton, TextField } from "@mui/material"
 import { Box } from "@mui/system"
-import { forwardRef } from "react"
+import { forwardRef, useRef } from "react"
 
 
 
@@ -25,7 +25,16 @@ import { forwardRef } from "react"
                     }} />
 */
 
-const MessageInput = forwardRef(({ onChange, value, sendButton, placeholder, disabled, attachButton, onSend }, ref) => {
+const MessageInput = forwardRef(function MessageInput(
+    { onChange = (e) => console.debug(e),
+        value = "",
+        sendButton = true,
+        placeholder = 'Write text here',
+        disabled = false,
+        attachButton = true,
+        onSend = (e) => console.debug(e),
+        emojiButton = true
+    }, ref) {
     const box_sx = theme => ({
         padding: 0.1,
         margin: 1,
@@ -54,14 +63,12 @@ const MessageInput = forwardRef(({ onChange, value, sendButton, placeholder, dis
 
     const onKeyDown = async (e) => {
         if (e.key === "Enter") {
-            if (!e.ctrlKey) {
+            if (!e.shiftKey) {
                 console.log(e.target.value)
                 e.preventDefault()
-                return true
+                onSend(value)
+                onChange("")
             }
-            
-            e.ctrlKey = false
-            return e;
         }
     }
 
@@ -95,29 +102,37 @@ const MessageInput = forwardRef(({ onChange, value, sendButton, placeholder, dis
                 minRows={1}
                 disabled={disabled}
                 onChange={handleChange}
-                onKeyDown={onKeyDown} />
+                onKeyDown={onKeyDown}
+                inputRef={ref} />
             <Box display='flex' sx={tools_sx}>
-                <IconButton
-                    color='primary'
-                    size='small'
-                    // onClick={handleAnchorEmotiPoper} 
-                    disabled={disabled}>
-                    <EmojiEmotionsOutlinedIcon />
-                </IconButton>
-                <IconButton
-                    color='primary'
-                    size='small'
-                    // onClick={() => handleSend(Object.hasOwn(userInput, user?.jid) ? userInput[user.jid] : '')}
-                    disabled={disabled}>
-                    <SendIcon />
-                </IconButton>
-                <IconButton
-                    color='primary'
-                    size='small'
-                    // onClick={onAttachClick} 
-                    disabled={disabled}>
-                    <AttachFileIcon />
-                </IconButton>
+                {emojiButton &&
+                    <IconButton
+                        color='primary'
+                        size='small'
+                        // onClick={handleAnchorEmotiPoper} 
+                        disabled={disabled}>
+                        <EmojiEmotionsOutlinedIcon />
+                    </IconButton>
+                }
+                {sendButton &&
+                    <IconButton
+                        onClick={()=>onSend(value)}
+                        color='primary'
+                        size='small'
+                        // onClick={() => handleSend(Object.hasOwn(userInput, user?.jid) ? userInput[user.jid] : '')}
+                        disabled={disabled}>
+                        <SendIcon />
+                    </IconButton>
+                }
+                {attachButton &&
+                    <IconButton
+                        color='primary'
+                        size='small'
+                        // onClick={onAttachClick} 
+                        disabled={disabled}>
+                        <AttachFileIcon />
+                    </IconButton>
+                }
             </Box>
         </Box>
     )

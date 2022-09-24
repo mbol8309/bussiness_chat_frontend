@@ -14,4 +14,5 @@ const settings = {
 
 const dataProvider = jsonapiClient(backend_host+'/api/v1', settings);
 
+
 export default dataProvider

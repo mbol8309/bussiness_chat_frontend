@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import theme from "./common/theme";
 import XmppChat from "./components/XmppChat";
 
-const Chat = ({ }) => {
+const Chat = () => {
     return (
         // <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
